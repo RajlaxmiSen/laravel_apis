@@ -1,0 +1,913 @@
+/*========== Login Page ================*/
+.popover{
+    z-index: 999999 !important;
+}
+.login .logo {
+	margin: 54px auto -5px;
+	padding: 15px;
+	text-align: center;
+	background: #fff;
+	width: 360px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	padding-bottom: 0px;
+
+}
+.page-header.navbar .menu-toggler.sidebar-toggler-Custom {
+    float: right;
+    margin: 15.5px 0 0;
+}
+
+.login .logo img{
+	width: 30%;
+}
+
+.logo-default{
+
+    width: 160px !important  ;
+
+    margin: 12px 0 !important;
+
+}
+
+li.sidebar-toggler-wrapper {
+
+    padding-bottom: 16px !important;
+
+}
+
+.login .content {
+
+	background-color: #fff;
+
+	width: 360px;
+
+	margin: 0 auto;
+
+	padding: 2px 30px 15px;
+
+	-webkit-border-radius: 7px;
+
+	-moz-border-radius: 7px;
+
+	-ms-border-radius: 7px;
+
+	-o-border-radius: 7px;
+
+	border-radius: 7px;
+
+}
+
+/*========== End Login  ===============*/
+
+
+
+.page-header .page-header-menu .hor-menu .navbar-nav>li.classic-menu-dropdown .dropdown-menu {
+
+    min-width: 223px !important;
+
+    max-width: 270px !important;
+
+}
+
+.page-header .page-header-top {
+
+    height: 75px;
+
+    display: none;
+
+}
+
+.page-header .page-header-menu{
+
+    height: auto;
+
+}
+
+.page-header {
+
+height: 60px;
+
+}
+
+table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed .sorting_asc:after, table.dataTable.table-condensed .sorting_desc:after {
+
+	top: 8px;
+
+	right: 2px;
+
+}
+
+table.dataTable thead th, table.dataTable thead td {
+
+    padding: 6px 5px;
+
+    border-bottom: 1px solid #111;
+
+}
+
+table.dataTable thead th, table.dataTable tfoot th {
+
+    font-weight: 600;
+
+}
+
+.portlet.light {
+
+    padding: 5px 15px 0px;
+
+    background-color: #fff;
+
+		border: 1px solid #ccc;
+
+}
+
+.hor-menu img{
+
+  /*display: none;*/
+
+}
+
+.page-head {
+
+    background: #fff;
+
+    border-bottom: 1px solid #ccc;
+
+}
+
+.page-header .page-header-menu .search-form .input-group {
+
+    background: #fff;
+
+}
+
+.page-header .page-header-menu .search-form .input-group .form-control {
+
+    color: #616d7d;
+
+    background: #fff;
+
+}
+
+.page-header .page-header-menu .hor-menu .navbar-nav>li .dropdown-menu {
+
+    background: #111d2b;
+
+}
+
+.page-header .page-header-menu .hor-menu .navbar-nav>li.open>a, .page-header .page-header-menu .hor-menu .navbar-nav>li:hover>a, .page-header .page-header-menu .hor-menu .navbar-nav>li>a:active, .page-header .page-header-menu .hor-menu .navbar-nav>li>a:focus, .page-header .page-header-menu .hor-menu .navbar-nav>li>a:hover {
+
+    color: #fff;
+
+    background: #111d2b!important;
+
+}
+
+.page-content{min-height: 480px;}
+
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+
+    text-decoration: none;
+
+    color: #262626;
+
+    background-color: #162535 !important;
+
+}
+
+.table-scrollable>.table-bordered>tbody>tr>td:last-child, .table-scrollable>.table-bordered>tbody>tr>th:last-child, .table-scrollable>.table-bordered>tfoot>tr>td:last-child, .table-scrollable>.table-bordered>tfoot>tr>th:last-child, .table-scrollable>.table-bordered>thead>tr>td:last-child, .table-scrollable>.table-bordered>thead>tr>th:last-child {
+
+    border-right: 0;
+
+    text-align: center;
+
+}
+
+
+
+.addressContainer{
+
+    background: #eee;
+
+    border: 1px solid #ccc;
+
+    padding: 10px;
+
+		cursor: pointer;
+
+}
+
+.addressContainer p {
+
+    margin: 12px 0px;
+
+}
+
+.addressContainer:hover{
+
+	background: #ddd;
+
+}
+
+.bx-wrapper {
+
+    position: relative;
+
+    margin-bottom: 20px;
+
+	}
+
+.bx-pager.bx-default-pager{
+
+		display:none;
+
+	}
+
+	.page-head .page-title {
+
+    display: inline-block;
+
+    float: left;
+
+    padding: 0 10px;
+
+    width: 100%
+
+}
+
+.page-head .page-title h1 {
+
+    color: #697882;
+
+    font-size: 18px;
+
+    font-weight: 400;
+
+    margin: 0;
+
+}
+
+#viewAddress select option {
+
+    padding: 10px;
+
+    background: #eee;
+
+    border: 1px solid #ccc;
+
+    margin: 5px 0px;
+
+		white-space: normal;
+
+}
+
+
+
+#addVendorModal .form-body{
+
+    max-height: 350px;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+}
+
+#addVendorModal .multipleContactVendors.well {
+
+    margin-bottom: 5px;
+
+    padding-top: 15px;
+
+    padding-bottom: 15px;
+
+    position: relative;
+
+}
+
+#addVendorModal  .form-group {
+
+    margin-bottom: 10px;
+
+}
+
+#addVendorModal .vendorCheckboxStyling {
+
+    background: #fff9f9;
+
+    padding: 10px;
+
+    border: 1px solid #ccc;
+
+    padding-top: 0px;
+
+    padding-bottom: 0px;
+
+}
+
+#addVendorModal .addRow {
+
+    position: absolute;
+
+    top: 0px;
+
+    right: 0px;
+
+    background: #000;
+
+    display: block;
+
+    color: #fff;
+
+    z-index: 9999;
+
+    padding: 8px;
+
+    padding-top: 3px;
+
+    padding-bottom: 4px;
+
+    cursor: pointer;
+
+}
+
+#addVendorModal .modal-body {
+
+    position: relative;
+
+    padding: 10px;
+
+}
+
+#addVendorModal span.addContact.pull-right {
+
+    background: #000;
+
+    color: #fff;
+
+    padding: 2px;
+
+    cursor: pointer;
+
+    display: block;
+
+    border-radius: 50% !important;
+
+    height: 20px;
+
+    width: 20px;
+
+    text-align: center;
+
+    position: absolute;
+
+    top: 8px;
+
+    right: 0px;
+
+    font-size: 12px;
+
+}
+
+#addVendorModal .modal-lg {
+
+    width: 95%;
+
+}
+
+#addVendorModal legend {
+
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+    line-height: inherit;
+
+    color: #34495e;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    font-weight: bold;
+
+}
+
+#addVendorModal .form-actions.text-center {
+
+    padding: 15px 0px;
+
+}
+
+#addVendorModal .multipleContactVendors:nth-child(odd) {
+
+    background: beige;
+
+}
+
+#addAssetManagementModal .modal-dialog.modal-lg {
+
+    width: 95%;
+
+}
+
+#addAssetManagementModal legend {
+
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+    line-height: inherit;
+
+    color: #34495e;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    font-weight: bold;
+
+}
+
+.bootbox-confirm .modal-body {
+
+    text-align: center;
+
+}
+
+.bootbox-confirm .modal-footer {
+
+    text-align: center;
+
+}
+
+#productModal .addItems{
+
+background: #000;
+
+color: #fff;
+
+padding: 2px;
+
+cursor: pointer;
+
+display: block;
+
+border-radius: 50% !important;
+
+height: 20px;
+
+width: 20px;
+
+text-align: center;
+
+position: absolute;
+
+top: 31px;
+
+right: -11px;
+
+font-size: 12px;
+
+}
+
+#productModal .row1{
+
+    overflow-y: auto;
+
+    max-height: 270px;
+
+		overflow-x: hidden;
+
+}
+
+#productModal .well {
+
+    border: 1px solid #ccc;
+
+    padding-top: 4px;
+
+    padding-bottom: 0px;
+
+    margin-bottom: 5px;
+
+    padding-left: 0px;
+
+}
+
+.passwordPolicy{
+
+	cursor: pointer;
+
+}
+
+.passwordShow{
+
+	cursor: pointer;
+
+}
+
+.bootbox.modal.bootbox-confirm .modal-dialog{
+
+	width: 25% !important;
+
+}
+
+
+
+.error{
+
+    /*color:red;*/
+
+}
+
+.table thead tr th,.table tbody tr td{
+
+    font-size: 12px;
+
+}
+
+.container-fluid {
+
+    padding-left: 15px;
+
+    padding-right: 15px;
+
+}
+
+.abl-filter-row{
+
+    background: #e3e3e3 !important;
+
+}
+
+.abl-pager span.pull-left{
+
+    padding: 5px;
+
+}
+
+/* TEST */
+
+
+
+.portlet.light .portlet-body {
+
+    padding-top: 0px;
+
+}
+
+.pagination {
+
+    margin: 5px 0;
+
+}
+
+.abl-pager span.pull-left {
+
+    padding: 12px;
+
+    padding-left: 0px;
+
+}
+
+
+
+.page-head .page-title h1 {
+
+    color: #697882;
+
+    font-size: 17px;
+
+    font-weight: 400;
+
+    margin: 0;
+
+}
+
+.page-header {
+
+    height: 50px;
+
+}
+
+.page-head .page-title {
+
+    display: inline-block;
+
+    float: left;
+
+    padding: 5px 10px;
+
+    width: 100%;
+
+}
+
+.breadcrumb {
+
+    background: 0 0;
+
+    padding: 0 0 0px;
+
+    margin: 0;
+
+    color: #a7b2c0;
+
+}
+
+.page-content {
+
+    /* background: #eff3f8; */
+
+    padding: 10px 0;
+
+}
+
+.portlet>.portlet-title {
+
+    margin-bottom: 0px;
+
+}
+
+.portlet.light>.portlet-title>.caption {
+
+    padding: 5px 0;
+
+}
+
+.portlet.light>.portlet-title>.actions {
+
+    padding: 1px 0 1px;
+
+}
+
+.portlet.light>.portlet-title {
+
+    padding: 0;
+
+    min-height: 31px;
+
+}
+
+.portlet>.portlet-title>.actions>.btn,
+
+.portlet>.portlet-title>.actions>.btn-group>.btn,
+
+.portlet>.portlet-title>.actions>.btn-group>.btn.btn-sm,
+
+.portlet>.portlet-title>.actions>.btn.btn-sm {
+
+    padding: 2px 10px !important;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+.portlet.light .portlet-body {
+
+    padding-top: 0px;
+
+}
+
+.pagination-sm>li>a, .pagination-sm>li>span {
+
+    padding: 3px 10px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+.portlet.light>.portlet-title>.caption>.caption-subject {
+
+    font-size: 15px;
+
+}
+
+.breadcrumb>li, .pagination {
+
+    display: inline-block;
+
+    font-size: 12px;
+
+}
+
+.margin_btm_5{
+
+    margin-bottom: 5px !important;
+
+}
+
+
+
+    .select2-results__group{
+
+text-decoration: underline;
+
+text-transform: uppercase;
+
+text-align: center;
+
+    }
+
+.page-header .page-header-menu .hor-menu .navbar-nav > li .dropdown-menu li > a{
+
+    padding: 16px 12px;
+
+}
+.page-sidebar .page-sidebar-menu>li>a>i[class*=icon-], .page-sidebar .page-sidebar-menu>li>a>i[class^=icon-], .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a>i[class*=icon-], .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a>i[class^=icon-]{
+    color: #d9d9d9;
+}
+.page-sidebar .page-sidebar-menu>li.active.open>a, .page-sidebar .page-sidebar-menu>li.active>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active.open>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active>a{
+    background: #b08b45;
+}
+
+
+.page-sidebar .page-sidebar-menu>li>a>i, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a>i{
+    color: #d9d9d9;
+}
+.removeItem{
+    margin-top: 20px !important;
+}
+a[abl-title]:hover:after,button[abl-title]:hover:after,div[abl-title]:hover:after {
+  content: attr(abl-title);
+  padding: 4px 8px;
+  position: relative;
+  /*right: 120px;*/
+  right: 25px;
+
+  top: 5px;
+  white-space: nowrap;
+  z-index: 1000;
+  background:#000;
+  color: #fff;
+  border-radius: 10px ;
+}
+
+i[abl-title]:hover:after{
+      content: attr(abl-title);
+    padding: 4px 8px;
+    position: absolute;
+    right: 93px;
+    top: -35px;
+    white-space: nowrap;
+    z-index: 1000;
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+     .nav-tabs li,.nav-tabs li a{
+        background-color: #000;
+        color: #fff;
+        text-transform:uppercase;
+        transform-style: scale(1);
+    }
+    .nav-tabs li:hover,.nav-tabs li a:hover{
+        background-color: #b08b45;
+        color: #fff;
+        transform: scale(1.01);
+        z-index: 99999;
+        box-shadow:
+    }
+
+    .nav-tabs li.active,.nav-tabs li.active a{
+        background-color: #b08b45 !important;
+        color: #fff !important;
+    }
+    #bookingTabs .tab-content{
+        padding: 10px;
+        border:1px solid #b08b45;
+        margin-bottom: 10px;
+
+    }
+    #bookingTabs .portlet.light{
+        border:none !important;
+    }
+
+        .sam_graph .abl_pos_table>thead>tr>td{
+padding: 1px;
+
+    }
+    .sam_graph .abl_pos_table>thead>tr>th{
+        border:  1px solid #e7ecf1;
+        text-align: center;
+    }
+    .sam_graph .abl_pos_table>tbody>tr{
+        border-bottom:  1px solid #e7ecf1;
+
+    }
+
+
+    .sam_graph .abl_pos_table1>tbody>tr>td{
+padding: 1px;
+    }
+    .sam_graph .abl_pos_table{
+        width: 100%;
+    }
+
+    .sam_graph .sam_ribbon{
+            padding: 5px;
+            border: 1px solid #eee;
+            border-radius: 5px !important;
+            box-shadow: 0px 3px 10px #d9d9d9;
+            min-height: 40px;
+            vertical-align: middle;
+            text-align: center;
+            min-width: 40px;
+            max-width: 40px;
+    }
+
+    .sam_graph img{
+        max-width: 100%;
+        max-height: 100%;
+    }
+    #bookingsView #panelId .panel-heading{
+        padding: 5px !important;
+    }
+    #bookingsView #panelId .panel-heading h4{
+        font-size: 12px !important;
+        color: white;
+    }
+    #bookingsView #panelId .panel-body{
+        padding: 10px 0px !important;
+    }
+
+    #bookingsView .form-control{
+        height: 30px;
+        padding: 6px;
+        min-width: 150px;
+    }
+    .removeSkill {
+        background: #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+    }
+    .skills .row{
+            background: #eee;
+    margin-bottom: 5px;
+    padding: 5px 5px;
+    }
+    .checkOrderRow{
+
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    box-shadow: 0px 2px 20px 3px #ccc;
+    background: bisque;
+
+    }
+    #ajaxLoading{
+        z-index: 9999999999 !important;
+    }
+    .packageTitle{
+            background: #eee;
+    margin-bottom: 10px;
+    width: 100%;
+    }
+
+.status{
+width: 15px;
+height: 10px;
+padding: 4px;
+border: 1px solid #ccc;
+}
+.partial_complete{
+    background-color: #90A4AE !important;
+}
+.completed{
+    background-color: #B0BEC5 !important;
+}
+.confirmed{
+    background-color: #64b5f6 !important;
+}
+.started{
+    background-color: #66BB6A !important;
+}
+.in_process{
+    background-color: #FFF59D !important;
+}
+.pending{
+    background-color: #F8BBD0 !important;
+}
+.cancelled{
+    background-color: #ff0000 !important;
+    color: white;
+}
+ .ui-menu .ui-menu-item{
+        font-size: 12px;
+    padding: 5px !important;
+    text-transform: uppercase;
+}
+.datepicker.dropdown-menu{
+        z-index: 100000 !important;
+}

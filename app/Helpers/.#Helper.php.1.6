@@ -1,0 +1,543 @@
+<?php
+
+namespace App\Helpers;
+
+use Carbon\Carbon;
+use Config;
+use App\Models\User;
+use App\Mail\SendOtpToMail;
+use App\Mail\SendWelcomeMail;
+use App\Mail\WelcomeMailAdmin;
+use App\Mail\ContactUsMail;
+use App\Mail\sendUserContactMail;
+use App\Mail\SendAttachment;
+use App\Mail\NewOrderPlace;
+use App\Models\ParentCategory;
+use App\Models\Category;
+use App\Models\Attribute;
+use App\Models\Remark;
+use App\Models\Product;
+use App\Models\ProductAttribute;
+
+use Mail;
+use DB;
+use Log;
+use Auth;
+use URL;
+class Helper
+{
+
+
+    public static function checkPermissionsBlade($required_permissions, $user_permissions=false)
+    {
+        if($user_permissions==false){
+            $user_permissions=Auth::user()->getAllPermissions()->pluck('name')->toArray();
+        }
+        $error = null;
+        if (count($user_permissions) > 0) {
+            if (in_array('Super User', $user_permissions)) {return true;}
+
+            if (count(array_intersect($user_permissions, $required_permissions)) == 0) {return false;} else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+     public static function checkPermissions($required_permissions, $user_permissions, $isAjax = false)
+    {
+        $error = null;
+        $user_permissions=Auth::user()->getAllPermissions()->pluck('name')->toArray();
+       
+        if (count($user_permissions) > 0) {
+            if (in_array('Super User', $user_permissions)) {
+                return true;
+            }
+
+            if (count(array_intersect($user_permissions, $required_permissions)) == 0) {
+                $error = "Insufficient Permission!";
+            }
+
+        } else {
+            $error = "User have no permission!";
+        }
+
+        if (strlen($error) > 0) {
+            return abort(403, $error)->with('error', $error);
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    public static function convertSearchDataDecode($sr_dt = "")
+    {
+        if (strlen($sr_dt) > 0) {
+            $decoded_string = base64_decode($sr_dt);
+
+            parse_str($decoded_string, $result);
+
+            return $result;
+        } else {
+            return [];
+        }
+    }
+
+    public static function convertSearchDataEncode($sr_dt = [])
+    {
+        if (count($sr_dt) > 0 && is_array($sr_dt)) {
+
+            $string = "";
+            foreach ($sr_dt as $k => $v) {
+                if (is_string($k) && (is_string($v) || $v == "")) {
+
+                    $string .= $k . '=' . ($v) . '&';
+                } else if(is_array($v)){
+                    foreach ($v as $key => $value) {
+                        $string .= $k . '[]=' . ($value) . '&';
+                    }
+                }
+            }
+            return base64_encode(rtrim($string, '&'));
+        } else {
+            return "";
+        }
+    }
+
+    
+    public static function getAllUsers()
+    {
+        $users   = User::where('id','>',0)->withTrashed()->get();
+        $a       = [];
+        $a[null] = "Select User";
+        foreach ($users as $user) {
+            $role = $user->roles()->pluck('name')->implode(' ');
+
+            $a[$user->id] = $role . ' >> ' . $user->name . "(" . $user->email . ")";
+
+        }
+        return $a;
+    }
+
+    
+    public static function abl_crypt($string, $action = 'e')
+    {
+        // you may change these values to your own
+        $secret_key = 'some_random';
+        $secret_iv  = 'my_simple_secret_iv';
+
+        $output         = false;
+        $encrypt_method = "AES-256-CBC";
+        $key            = hash('sha256', $secret_key);
+        $iv             = substr(hash('sha256', $secret_iv), 0, 16);
+
+        if ($action == 'e') {
+            $output = base64_encode(openssl_encrypt($string, $encrypt_method, $key, 0, $iv));
+        } else if ($action == 'd') {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+
+        return $output;
+    }
+
+    public static function generateRandomStringWithNumber($length)
+    {
+        $characters         = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $quantityCharacters = strlen($characters);
+        $quantityCharacters--;
+
+        $str = null;
+
+        for ($i = 1; $i <= $length; $i++) {
+            $position = rand(0, $quantityCharacters);
+            $str .= $characters[$position];
+        }
+
+        return $str;
+    }
+
+    public static function generateRandomStringWithOutNumber($length)
+    {
+        $characters         = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $quantityCharacters = strlen($characters);
+        $quantityCharacters--;
+
+        $str = '';
+
+        for ($i = 1; $i <= $length; $i++) {
+            $position = rand(0, $quantityCharacters);
+            $str .= $characters[$position];
+        }
+
+        return $str;
+    }
+
+    public static function generateRandomStringUpperCase($length)
+    {
+        $characters         = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $quantityCharacters = strlen($characters);
+        $quantityCharacters--;
+
+        $str = null;
+
+        for ($i = 1; $i <= $length; $i++) {
+            $position = rand(0, $quantityCharacters);
+            $str .= $characters[$position];
+        }
+
+        return $str;
+    }
+    public static function generateRandomStringWithNumberAndUpperCase($length)
+    {
+        $characters         = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $quantityCharacters = strlen($characters);
+        $quantityCharacters--;
+
+        $str = null;
+
+        for ($i = 1; $i <= $length; $i++) {
+            $position = rand(0, $quantityCharacters);
+            $str .= $characters[$position];
+        }
+
+        return $str;
+    }
+
+    public static function generateRandomNumber($length)
+    {
+        $characters         = '0123456789';
+        $quantityCharacters = strlen($characters);
+        $quantityCharacters--;
+
+        $str = null;
+
+        for ($i = 1; $i <= $length; $i++) {
+            $position = rand(0, $quantityCharacters);
+            $str .= $characters[$position];
+        }
+
+        return $str;
+    }
+
+    public static function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        if (strlen(trim($date)) == 0) {
+            return false;
+        }
+        try {
+            $d = Carbon::createFromFormat($format, $date);
+            return $d && $d->format($format) == $date;
+        } catch (\Exception $e) {
+            return false;
+        }
+
+    }
+
+    public static function sendOTPEmail($user = false)
+    {
+
+        if (isset($user->id)) {
+            try {
+                $otp              = mt_rand(100000, 999999);
+                $expiry           = Carbon::now()->addHours(Config::get('custom_setting.OTP_VALIDITY_HOURS'));
+                $user->otp        = $otp;
+                $user->otp_expiry = $expiry;
+                if ($user->save()) {
+                    Mail::to($user->email)->send(new ResetPasswordSendOTPMail(['otp' => $otp, 'otp_expiry' => $expiry->format('d M Y, h:i A'), 'user_name' => $user->name]));
+                    if (!Mail::failures()) {
+                        return true;
+                    } else {
+
+                        return false;
+                    }
+
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                return false;
+            }
+
+        }
+
+        return false;
+    }
+    
+public static function prepareSms($order,$message){
+    $data=[];
+    $data['order_id']=$order->id;
+    $data['studio_name']=$order->kiosk->name;
+    $data['customer_name']=$order->customer->name;
+    $data['order_grand_total']=$order->getOrderTotalValue();
+    $data['order_status']=isset(self::$order_status[$order->status])?self::$order_status[$order->status]:$order->status;
+    $data['order_date_time']=date('d M Y H:i A',strtotime($order->order_start_date_time));
+    $data['order_amount_paid']=$order->amount_paid;
+     foreach ($data as $k => $value) {
+            $tag = "{{&$k}}";
+            $message = str_replace($tag, $value, $message);
+        }
+    return $message;
+}
+public static function prepareCampaignSms($customer,$message){
+    $data=[];
+    $data['customer_name']=$customer->name;
+    $data['order_net_amount']=$customer->orderNetAmount();
+    $data['order_net_count']=$customer->orderNetCount();
+     foreach ($data as $k => $value) {
+            $tag = "{{&$k}}";
+            $message = str_replace($tag, $value, $message);
+        }
+    return $message;
+}
+
+public static function sendSms($mobile,$sms){
+        $sms= urlencode($sms);
+        $ch = curl_init();
+        $url="http://demo1.dynamicconsultants.in/api/sendhttp.php?authkey=232495AHTZTT065b787f23&mobiles={$mobile}&message={$sms}&sender=ABCDEF&route=4";
+        try{
+        $result=file_get_contents($url);    
+        Log::info($result);
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage());
+        }
+        
+
+        
+        return;
+}
+public static $order_status=[1 => 'Pending', 2 => 'Confirmed', 3 => 'Send', 4 => 'Completed', 5 => 'Cancelled',6=>"Hide"];
+public static $system_settings=[1 => 'Email Notification On Order Place'];
+public static $plan=[0 => 'Standard',1 => 'Plus',2 => 'Premium',4=>'hello'];
+public static $numberOfHub=10;
+public static $numberOfKiosk=10;
+
+public static function sendEmailOtp($email,$otp){
+    
+    if (isset($email,$otp)) {
+        try {
+            Mail::to($email)->send(new SendOtpToMail(['otp' => $otp]));
+                if (!Mail::failures()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                return false;
+            }
+        }
+
+    return false;
+}
+
+public static function sendMobileOtp($mobile,$otp){
+        $sms="Hi,Please use ".$otp." as your OTP to complete registration process.";
+        
+        self::sendSms($mobile,$sms);
+        
+
+        
+
+
+    return true;
+}
+
+public static function sendWelcomeMail($email,$password){
+    if (isset($email,$password)) {
+        try {
+            Mail::to($email)->send(new SendWelcomeMail(['password' => $password]));
+                if (!Mail::failures()) {
+                    Log::info($password);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                return false;
+            }
+        }
+
+    return false;
+}
+public static function sendWelcomeMailToAdmin($email,$user){
+    if (isset($email)) {
+        try {
+            Mail::to($email)->send(new WelcomeMailAdmin(['name' => $user->name,'email'=>$user->email,'mobile'=>$user->mobile_no,'no_of_hub'=>$user->hubLicences->count(),'no_of_kiosk'=>$user->kioskLicences->count(),'company_name'=>$user->company_name]));
+                if (!Mail::failures()) {
+                    Log::info($user);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                return false;
+            }
+        }
+
+    return false;
+}
+
+public static function sendContactMail($email,$request){
+    if (isset($email,$request)) {
+        try {
+            Mail::to($email)->send(new ContactUsMail(['name' => $request->name,'email'=>$request->email,'mobile'=>$request->mobile,'message'=>$request->message]));
+                if (!Mail::failures()) {
+                    //Log::info($user);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                return false;
+            }
+        }
+
+    return false;
+}
+public static function sendContactMailUser($email,$request){
+    if (isset($email,$request)) {
+        try {
+            Mail::to($email)->send(new sendUserContactMail(['name' => $request->name]));
+                if (!Mail::failures()) {
+                    //Log::info($user);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                return false;
+            }
+        }
+
+    return false;
+}
+public static function sendAttacment($email,$excel_file){
+    if (isset($email,$excel_file)) {
+        try {
+            Mail::to($email)->send(new SendAttachment([$excel_file]));
+                if (!Mail::failures()) {
+                    Log::info($user);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                return false;
+            }
+        }
+
+    return false;
+}
+
+public static function newOrderEmail($email,$order){
+    if (isset($email,$order)) {
+        try {
+            Mail::to($email)->send(new NewOrderPlace(['dealer_name'=>$order->dealer->name,'dealer_code'=>$order->dealer->dealer_code,'dealer_address'=>$order->dealer_address,'dealer_city'=>$order->dealer_city,'dealer_state'=>$order->state->name,'total_amount'=>$order->total_amount,'agent_name'=>($order->agent)?$order->agent->name:"",'agent_code'=>($order->agentCode)?$order->agentCode->value:"Agent code not define in system",'category_name'=>($order->category)?$order->category->name:""]));
+                if (!Mail::failures()) {
+                    Log::info($order);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                 Log::error($e->getMessage());
+                 Log::info($order->dealer->name);
+                 Log::info($order->dealer->dealer_code);
+                 Log::info($order->dealer_city);
+                 Log::info($order->dealer_price_total);
+                 Log::info("agent name");
+                 Log::info($order->agent->name);
+                // dd($order->agentCode);
+                
+                 
+                return false;
+            }
+        }
+
+    return false;
+}
+
+public static function clon($email,$new_email){
+    $user_data=[];
+    $parent_category_data=[];
+    $category_data=[];
+    $attribute_data=[];
+    $product_data=[];
+    $product_attribute_data=[];
+    $remark_data=[];
+if(isset($email,$new_email)){
+    try {
+        $user=User::where('email',$email)->where('user_type',2)->first();
+        $check_user=User::where('email',$new_email)->first();
+
+        if(count($user)){
+            if(count($check_user)){
+                DB::beginTransaction();
+                $name=explode("@", $new_email);
+                $user_data=["name"=>$name[0], "email"=>$new_email,"password"=>bcrypt("Abtech@123"),'identifier'=>"Regional Manager".'_'.microtime(true),"manager"=>1,'user_type'=>2,'created_by'=>1,'plan'=>0];
+                $new_user=User::create($user_data);
+                $parentCategories=ParentCategory::where('regionalManager_id',$user->id)->get();
+                if(count($parentCategories)){
+                    foreach ($parentCategories as $parentCategory) {
+                       $parent_category_data[]=["name"=>$parentCategory->name,'regionalManager_id'=>$new_user->id,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')];
+                    }
+                }
+                $new_parentCategories=ParentCategory::insert($parent_category_data);
+                $categories=[];
+                if(count($new_parentCategories)){
+                    foreach($new_parentCategories as $new_parentCategory){
+                        $categories=Category::where('parent_category',$new_parentCategory->parent_category_id)->where('regionalManager_id',$user->id)->get();
+
+                        foreach($categories as $category){
+
+                            $category_data[]=["name"=>$category->name,'regionalManager_id'=>$new_user->id,'special_discount'=>$category->discount,'parent_category_id'=>$new_parentCategory->parent_category_id,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')];
+                            $new_categories=Category::insert($category_data);
+
+                            foreach($new_categories as $new_category){
+                                $attributes=Attribute::where('category_id',$category->id)->where('regionalManager_id',$new_user->id)->get();
+                                foreach($attributes as $attribute){
+                                     $attribute_data[]=['name'=>$attribute->name,'category_id'=>$new_category->id]
+                                }
+                          
+                                $remarks=Remark::where('category_id',$category->id)->where('regionalManager_id',$new_user->id)->get();
+                                foreach($remarks as $remark){
+                                    $remark_data[]=['remark'=>$remark->name,'category_id'=>$new_category->id,'regionalManager_id'=>$new_user->id];
+                                }
+                            }
+
+
+                        }
+
+
+
+                    }
+                }
+                    
+                    
+                   
+                DB::commit();
+            }else{
+                return false;
+            }  
+        }else{
+            return false;
+        }
+
+    }catch (\Exception $e) {
+        Log::error($e->getMessage());
+        DB::rollback();
+    }
+}
+return false;
+}
+
+}

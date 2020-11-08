@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
+use App\Models\CompetitionPhoto;
+use Auth;
+use Helper;
+use Config;
+use DB;
+use View;
+
+class Result_Controller extends Controller
+{
+    protected $search_data;
+
+    public function __construct()
+    {
+        $this->middleware('admin_auth');
+    }
+
+    public function index(Request $request) {
+
+        $model = CompetitionPhoto::where('is_winner', 1);
+        $limit = Config::get('custom_setting.PER_PAGE_LIMIT');
+        $global_count = $model->count();
+        $search_mode = false;
+        $sr_dt = [];
+
+        if($request->has('sr_dt')&&strlen($request->sr_dt)>0){
+            $sr_dt=Helper::convertSearchDataDecode($request->sr_dt);  
+            $model=$this->search($model,$sr_dt);
+            $global_count=$model->count();
+            $search_mode=true;
+        }
+
+        if($request->has('cp')){
+            $currentPage=$request->cp;
+        }    
+
+        if (isset($currentPage)) {
+            if ($currentPage > ceil($global_count / $limit)) {
+                $currentPage = ceil($global_count / $limit);
+                $request->cp=$currentPage;
+            }
+
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+        }
+
+        $photos = $model->orderBy('id', 'desc')->paginate($limit, ['*'], 'cp');    
+        $total_count = $photos->count();
+        $rec_on_page = count($photos);
+        $page = ($request->has('cp') && $request->cp>1) ? $request->cp : 1;
+        $start = ($page>1) ? $limit*($page-1)+1 : (($rec_on_page>0)?1:0);
+        $end = ($start<=1) ? $rec_on_page : $start+$rec_on_page-1;
+        $pager_data = [ 'global_count' => $global_count, 'start' => $start, 'end' => $end ];
+
+        //$countries
+
+        if ($request->ajax()) {
+            return view('admin.result.grid')->with(['photos'=>$photos])->with('search_mode',$search_mode)->with('sr_dt',$sr_dt)->with('pager_data',$pager_data)->render();
+        }
+
+        return view('admin.result.list')->with(['photos'=>$photos])->with('search_mode',$search_mode)->with('sr_dt',$sr_dt)->with('pager_data',$pager_data);
+    }
+
+    protected function search($model,$search_data){
+
+        $model = $model;
+
+        if(isset($search_data['comp_id'])&& strlen($search_data['comp_id'])){
+            $model=$model->where('comp_id','=',$search_data['comp_id']);
+        }
+        //dd($model);
+        if(isset($search_data['is_winner'])&& strlen($search_data['is_winner'])){
+            $model=$model->where('is_winner','=', $search_data['is_winner']);
+        }
+
+        if(isset($search_data['mobile'])&& strlen($search_data['mobile'])){
+            $model=$model->where('mobile','=',$search_data['mobile']);
+        }
+
+        // if(isset($search_data['email'])&& strlen($search_data['email'])){
+
+        //  $term=$search_data['email'];
+        //     $model = $model->whereHas('user',function($q) use($term){
+        //      $q->where('name','like','%'.$term.'%'); 
+        //     });
+        // }
+
+        return $model;
+    }
+}
